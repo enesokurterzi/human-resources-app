@@ -18,7 +18,6 @@ class HumanResourcesViewModel @Inject constructor(
     var state by mutableStateOf(listOf<Employee>())
         private set
 
-
     fun getEmployees() {
         repository.getEmployees {
             state = it

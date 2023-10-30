@@ -5,20 +5,11 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.example.odev_3.domain.models.Employee
+import com.example.odev_3.presentation.home.EmployeesDisplay
 import com.example.odev_3.presentation.ui.theme.Odev_3Theme
 import com.example.odev_3.presentation.viewmodels.HumanResourcesViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +21,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         vm.getEmployees()
 
         setContent {
@@ -40,7 +32,6 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-
                     EmployeesDisplay(vm.state)
                     Log.d("deneme", vm.state.toString())
                 }
@@ -49,28 +40,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun EmployeeDisplay(e: Employee) {
-    Row(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text(text = e.employeeName)
-        Spacer(modifier = Modifier.width(5.dp))
-        Text(text = "${e.employeeSalary} TL")
-        Spacer(modifier = Modifier.width(5.dp))
-        Text(text = "${e.employeeAge}")
-    }
-
-}
-
-@Composable
-fun EmployeesDisplay(lst: List<Employee>) {
-    LazyColumn(
-
-    ) {
-        this.items(lst) {
-            EmployeeDisplay(e = it)
-        }
-
-    }
-}
