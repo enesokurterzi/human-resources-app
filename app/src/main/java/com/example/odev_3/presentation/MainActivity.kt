@@ -2,6 +2,7 @@ package com.example.odev_3.presentation
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -34,9 +35,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = Background
                 ) {
-
+                    if (vm.errorState == 429) {
+                        Toast.makeText(this, "Uyarı: Çok fazla deneme yapıldı!", Toast.LENGTH_LONG).show()
+                    }
                     EmployeesDisplay(vm.state)
-                    Log.d("deneme", vm.state.toString())
                 }
             }
         }

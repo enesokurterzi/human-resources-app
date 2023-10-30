@@ -15,14 +15,21 @@ class HumanResourcesViewModel @Inject constructor(
     private val repository: ServiceRepository
 ) : ViewModel() {
 
+    var errorState by mutableStateOf(0)
+        private set
+
     var state by mutableStateOf(listOf<Employee>())
         private set
 
     fun getEmployees() {
-        repository.getEmployees {
-            state = it
-            Log.e("state", state.toString())
-        }
+        repository.getEmployees(
+            errorCode = {
+                errorState = it
+            },
+            callback = {
+                state = it
+            }
+        )
 
     }
 

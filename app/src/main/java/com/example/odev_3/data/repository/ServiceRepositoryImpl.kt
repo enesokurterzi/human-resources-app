@@ -15,7 +15,10 @@ import javax.inject.Inject
 class ServiceRepositoryImpl @Inject constructor(
     private val api: HumanResourcesApi
 ) : ServiceRepository {
-    override fun getEmployees(callback: (List<Employee>) -> Unit) {
+    override fun getEmployees(
+        callback: (List<Employee>) -> Unit,
+        errorCode: (Int) -> Unit
+    ) {
         api.getEmployees().enqueue(object : Callback<Employees> {
             override fun onResponse(
                 call: Call<Employees>,
@@ -23,10 +26,9 @@ class ServiceRepositoryImpl @Inject constructor(
             ) {
                 if (response.isSuccessful) {
                     val lst = response.body()?.data ?: listOf()
-                    Log.e("denemeService", response.body().toString())
                     callback(lst)
                 } else {
-                    Log.e("hata", response.toString())
+                    errorCode(response.code())
                 }
             }
 
