@@ -9,6 +9,8 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import com.example.odev_3.R
@@ -16,6 +18,8 @@ import com.example.odev_3.presentation.home.EmployeesDisplay
 import com.example.odev_3.presentation.ui.theme.Background
 import com.example.odev_3.presentation.ui.theme.Odev_3Theme
 import com.example.odev_3.presentation.viewmodels.HumanResourcesViewModel
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,20 +29,29 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        vm.getEmployees()
-
         setContent {
             Odev_3Theme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = Background
+
+                val isLoading = vm.employeeState.isLoading
+                val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isLoading)
+
+                SwipeRefresh(
+                    state = swipeRefreshState,
+                    onRefresh = vm::loadStuff,
                 ) {
-                    if (vm.errorState == 429) {
-                        Toast.makeText(this, "Uyarı: Çok fazla deneme yapıldı!", Toast.LENGTH_LONG).show()
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = Background
+                    ) {
+                        if (vm.employeeState.errorCode == 429) {
+                            Toast.makeText(
+                                this,
+                                "Uyarı: Çok fazla deneme yapıldı!",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                        EmployeesDisplay(vm.employeeState.employeeList)
                     }
-                    EmployeesDisplay(vm.state)
                 }
             }
         }
