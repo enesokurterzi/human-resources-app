@@ -15,10 +15,10 @@ The app has dependency injection with dagger-hilt and built in android architect
   
   - Dagger - Hilt <p>
     implementation("com.google.dagger:hilt-android:2.44") <p>
-    kapt("com.google.dagger:hilt-android-compiler:2.44") <p>
+    ksp("com.google.dagger:hilt-android-compiler:2.44") <p>
 
     implementation ("com.google.dagger: dagger:2.44") <p>
-    kapt("com.google.dagger:dagger-compiler:2.44") <p>
+    ksp("com.google.dagger:dagger-compiler:2.44") <p>
     
   - Gson <p>
     implementation("com.squareup.retrofit2:converter-gson:2.9.0") <p>
