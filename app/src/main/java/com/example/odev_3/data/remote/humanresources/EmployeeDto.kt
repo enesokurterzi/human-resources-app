@@ -1,8 +1,8 @@
-package com.example.odev_3.domain.models
+package com.example.odev_3.data.remote.humanresources
 
 import com.google.gson.annotations.SerializedName
 
-data class Employee (
+data class EmployeeDto (
     val id: Long,
 
     @SerializedName("employee_name")

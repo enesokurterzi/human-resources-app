@@ -1,19 +1,13 @@
 package com.example.odev_3.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
-import com.example.odev_3.R
 import com.example.odev_3.presentation.home.EmployeesDisplay
 import com.example.odev_3.presentation.ui.theme.Background
 import com.example.odev_3.presentation.ui.theme.Odev_3Theme

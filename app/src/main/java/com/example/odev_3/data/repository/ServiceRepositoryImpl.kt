@@ -1,11 +1,10 @@
 package com.example.odev_3.data.repository
 
 import android.util.Log
-import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
+import com.example.odev_3.data.mappers.toEmployee
+import com.example.odev_3.data.remote.humanresources.EmployeesDto
 import com.example.odev_3.data.remote.humanresources.HumanResourcesApi
-import com.example.odev_3.domain.models.Employee
-import com.example.odev_3.domain.models.Employees
+import com.example.odev_3.domain.local.humanresources.Employee
 import com.example.odev_3.domain.repository.ServiceRepository
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,20 +18,20 @@ class ServiceRepositoryImpl @Inject constructor(
         callback: (List<Employee>) -> Unit,
         errorCode: (Int) -> Unit
     ) {
-        api.getEmployees().enqueue(object : Callback<Employees> {
+        api.getEmployees().enqueue(object : Callback<EmployeesDto> {
             override fun onResponse(
-                call: Call<Employees>,
-                response: Response<Employees>
+                call: Call<EmployeesDto>,
+                response: Response<EmployeesDto>
             ) {
                 if (response.isSuccessful) {
                     val lst = response.body()?.data ?: listOf()
-                    callback(lst)
+                    callback(lst.map { it.toEmployee() })
                 } else {
                     errorCode(response.code())
                 }
             }
 
-            override fun onFailure(call: Call<Employees>, t: Throwable) {
+            override fun onFailure(call: Call<EmployeesDto>, t: Throwable) {
                 Log.e("err", t.message.toString())
             }
         })
